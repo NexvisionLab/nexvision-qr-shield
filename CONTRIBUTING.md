@@ -20,7 +20,7 @@ python -m venv .venv
 python -m pip install --requirement requirements-audit.txt
 python -m pip check
 python -m pip_audit --requirement requirements.lock
-detect-secrets scan --all-files --exclude-files '(^|/)(\.git|\.venv|build|dist)/'
+detect-secrets scan --all-files --exclude-files '(^|/)(\.git|\.venv|\.pytest_cache|\.ruff_cache|\.hypothesis|build|dist)/'
 ruff check .
 bandit -q -r app tools
 pytest -q
