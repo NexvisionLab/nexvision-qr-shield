@@ -1,0 +1,7 @@
+# Optional offline blocklist bundled with QR Shield.
+# Add one indicator per line. Supported formats:
+#   domain:malicious.example
+#   url:https://malicious.example/path
+#   malicious.example                 (treated as a domain)
+#
+# The application never downloads or submits indicators to a third party.

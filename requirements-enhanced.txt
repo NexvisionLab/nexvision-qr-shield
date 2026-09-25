@@ -1,0 +1,3 @@
+-r requirements.txt
+
+# QR-family consensus decoding is included in the production runtime.

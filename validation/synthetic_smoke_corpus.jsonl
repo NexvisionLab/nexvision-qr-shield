@@ -1,0 +1,10 @@
+{"id":"benign-001","label":"benign","region":"global","payload":"https://example.org/menu"}
+{"id":"benign-002","label":"benign","region":"SG","payload":"WIFI:T:WPA3;S:Guest;P:correct-horse-battery-staple;;"}
+{"id":"benign-003","label":"benign","region":"global","payload":"Scam awareness: never share your OTP. No action required."}
+{"id":"mal-001","label":"malicious","region":"global","payload":"https://paypal-login.example/verify/account"}
+{"id":"mal-002","label":"malicious","region":"global","payload":"javascript:location='https://evil.example'"}
+{"id":"mal-003","label":"malicious","region":"SG","payload":"Urgent action: Singpass account will be suspended. Verify your account and enter OTP immediately."}
+{"id":"mal-004","label":"malicious","region":"RU","payload":"Срочно: ваш аккаунт будет заблокирован. Подтвердите учетную запись и введите код."}
+{"id":"mal-005","label":"malicious","region":"TR","payload":"Hemen işlem yapın: hesabınız askıya alınacak. Hesabınızı doğrulayın ve doğrulama kodunu girin."}
+{"id":"mal-006","label":"malicious","region":"global","payload":"intent://scan/#Intent;scheme=x;package=com.unknown;S.browser_fallback_url=https%3A%2F%2Fevil.example%2Flogin;end"}
+{"id":"abstain-001","label":"malicious","region":"global","payload":"https://trusted.example\\@evil.example/login"}

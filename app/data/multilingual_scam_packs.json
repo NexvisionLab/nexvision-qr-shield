@@ -1,0 +1,215 @@
+{
+  "pack_id": "nexvision-multilingual-scam-policy",
+  "version": "2026.09.2",
+  "method": "Combination rules require pressure plus an action, or at least three distinct scam-intent categories.",
+  "awareness_context": [
+    "scam awareness", "fraud awareness", "do not share otp", "never share your otp", "no action required",
+    "official security advice", "laporkan penipuan", "jangan bagikan otp", "谨防诈骗", "不要提供验证码",
+    "防詐騙", "切勿透露驗證碼", "साइबर सुरक्षा जागरूकता", "لا تشارك رمز التحقق", "ระวังมิจฉาชีพ",
+    "cảnh báo lừa đảo", "詐欺に注意", "사기 예방", "alerta de estafa", "prévention des arnaques",
+    "attenzione alle truffe", "fraudewaarschuwing", "остерегайтесь мошенников", "шахрайство",
+    "dolandırıcılık uyarısı", "هشدار کلاهبرداری", "אזהרת הונאה", "προειδοποίηση απάτης", "ostrzeżenie przed oszustwem"
+  ],
+  "languages": {
+    "en": {"name": "English", "regions": ["global"], "phrases": {
+      "urgency": ["act now", "immediately", "urgent action", "limited time"],
+      "threat": ["account will be suspended", "account locked", "service disconnected", "legal action"],
+      "credentials": ["verify your account", "confirm your password", "enter otp", "security code"],
+      "payment": ["pay delivery fee", "unpaid fine", "customs fee", "claim refund"],
+      "delivery": ["parcel delivery failed", "reschedule delivery", "package held"],
+      "authority": ["tax authority", "police notice", "government benefit"],
+      "job": ["easy online job", "complete tasks for commission"],
+      "investment": ["guaranteed returns", "crypto investment"],
+      "installation": ["install app", "download apk"],
+      "prize": ["claim your prize", "lottery winner"],
+      "parking": ["parking fine", "pay parking fee", "toll payment"],
+      "utility": ["electricity will be disconnected", "unpaid utility bill"],
+      "immigration": ["visa expired", "immigration fee"],
+      "charity": ["urgent donation", "disaster relief donation"]
+    }},
+    "ms": {"name": "Malay", "regions": ["MY", "SG", "BN"], "phrases": {
+      "urgency": ["bertindak sekarang", "dengan segera", "segera sahkan"],
+      "threat": ["akaun anda akan disekat", "akaun telah digantung", "tindakan undang undang"],
+      "credentials": ["sahkan akaun anda", "masukkan otp", "kata laluan anda"],
+      "payment": ["bayar yuran penghantaran", "denda tertunggak", "bayaran kastam"],
+      "delivery": ["penghantaran bungkusan gagal", "jadualkan semula penghantaran"],
+      "authority": ["lembaga hasil", "polis diraja malaysia"],
+      "job": ["kerja sambilan mudah", "komisen tugasan"],
+      "investment": ["pulangan dijamin", "pelaburan kripto"],
+      "prize": ["tuntut hadiah anda"], "parking": ["bayar denda parkir"], "utility": ["bekalan elektrik akan diputuskan"]
+    }},
+    "id": {"name": "Indonesian", "regions": ["ID"], "phrases": {
+      "urgency": ["segera verifikasi", "bertindak sekarang", "batas waktu"],
+      "threat": ["akun anda akan diblokir", "akun ditangguhkan", "layanan diputus"],
+      "credentials": ["verifikasi akun anda", "masukkan otp", "kata sandi anda"],
+      "payment": ["bayar biaya pengiriman", "denda belum dibayar", "biaya bea cukai"],
+      "delivery": ["paket gagal dikirim", "jadwalkan ulang pengiriman"],
+      "authority": ["direktorat jenderal pajak", "bpjs kesehatan"],
+      "job": ["kerja paruh waktu", "komisi tugas"],
+      "investment": ["keuntungan dijamin", "investasi kripto"], "parking": ["bayar denda parkir"], "utility": ["listrik akan diputus"]
+    }},
+    "zh-hans": {"name": "Chinese (Simplified)", "regions": ["CN", "SG", "MY"], "phrases": {
+      "urgency": ["立即验证", "立即处理", "最后期限"], "threat": ["账户将被暂停", "账户已冻结", "将采取法律行动"],
+      "credentials": ["验证您的账户", "输入验证码", "确认密码"], "payment": ["支付配送费", "未缴罚款", "海关费用"],
+      "delivery": ["包裹投递失败", "重新安排派送"], "authority": ["税务机关", "公安机关"],
+      "job": ["刷单返佣", "轻松兼职"], "investment": ["保证收益", "加密货币投资"], "prize": ["领取奖品"], "parking": ["支付停车罚款"], "utility": ["将停止供电"]
+    }},
+    "zh-hant": {"name": "Chinese (Traditional)", "regions": ["TW", "HK", "MO", "SG"], "phrases": {
+      "urgency": ["立即驗證", "立即處理", "最後期限"], "threat": ["帳戶將被停用", "帳戶已凍結", "將採取法律行動"],
+      "credentials": ["驗證您的帳戶", "輸入驗證碼", "確認密碼"], "payment": ["支付配送費", "未繳罰款", "海關費用"],
+      "delivery": ["包裹派送失敗", "重新安排派送"], "authority": ["稅務局", "警務處"],
+      "job": ["刷單返佣", "輕鬆兼職"], "investment": ["保證回報", "加密貨幣投資"], "prize": ["領取獎品"], "parking": ["支付停車罰款"], "utility": ["將停止供電"]
+    }},
+    "hi": {"name": "Hindi", "regions": ["IN"], "phrases": {
+      "urgency": ["अभी सत्यापित करें", "तुरंत कार्रवाई करें"], "threat": ["आपका खाता बंद कर दिया जाएगा", "खाता निलंबित"],
+      "credentials": ["अपना खाता सत्यापित करें", "ओटीपी दर्ज करें", "पासवर्ड दर्ज करें"], "payment": ["डिलीवरी शुल्क का भुगतान करें", "बकाया जुर्माना"],
+      "delivery": ["पार्सल डिलीवरी विफल", "डिलीवरी पुनर्निर्धारित करें"], "authority": ["आयकर विभाग", "भारतीय स्टेट बैंक"],
+      "job": ["आसान ऑनलाइन नौकरी"], "investment": ["गारंटीड रिटर्न"]
+    }},
+    "bn": {"name": "Bengali", "regions": ["BD", "IN"], "phrases": {
+      "urgency": ["এখনই যাচাই করুন", "অবিলম্বে ব্যবস্থা নিন"], "threat": ["আপনার অ্যাকাউন্ট বন্ধ করা হবে", "অ্যাকাউন্ট স্থগিত"],
+      "credentials": ["অ্যাকাউন্ট যাচাই করুন", "ওটিপি লিখুন", "পাসওয়ার্ড দিন"], "payment": ["ডেলিভারি ফি পরিশোধ করুন", "বকেয়া জরিমানা"],
+      "delivery": ["পার্সেল ডেলিভারি ব্যর্থ"], "authority": ["আয়কর বিভাগ"], "job": ["সহজ অনলাইন কাজ"], "investment": ["নিশ্চিত মুনাফা"]
+    }},
+    "ta": {"name": "Tamil", "regions": ["IN", "SG", "MY", "LK"], "phrases": {
+      "urgency": ["உடனே சரிபார்க்கவும்", "உடனடி நடவடிக்கை"], "threat": ["உங்கள் கணக்கு முடக்கப்படும்", "கணக்கு இடைநிறுத்தப்பட்டது"],
+      "credentials": ["கணக்கை சரிபார்க்கவும்", "ஓடிபி உள்ளிடவும்", "கடவுச்சொல்லை உள்ளிடவும்"], "payment": ["விநியோக கட்டணம் செலுத்தவும்", "செலுத்தப்படாத அபராதம்"],
+      "delivery": ["பார்சல் விநியோகம் தோல்வி"], "authority": ["வருமான வரித்துறை"], "job": ["எளிய இணைய வேலை"], "investment": ["உத்தரவாத லாபம்"]
+    }},
+    "ur": {"name": "Urdu", "regions": ["PK", "IN"], "phrases": {
+      "urgency": ["ابھی تصدیق کریں", "فوری کارروائی کریں"], "threat": ["آپ کا اکاؤنٹ بند کر دیا جائے گا", "اکاؤنٹ معطل"],
+      "credentials": ["اپنے اکاؤنٹ کی تصدیق کریں", "او ٹی پی درج کریں", "پاس ورڈ درج کریں"], "payment": ["ڈیلیوری فیس ادا کریں", "غیر ادا شدہ جرمانہ"],
+      "delivery": ["پارسل کی ترسیل ناکام"], "authority": ["انکم ٹیکس"], "job": ["آسان آن لائن کام"], "investment": ["یقینی منافع"]
+    }},
+    "ar": {"name": "Arabic", "regions": ["MENA"], "phrases": {
+      "urgency": ["تحقق الآن", "اتخذ إجراء فوريا", "بشكل عاجل"], "threat": ["سيتم تعليق حسابك", "تم تجميد الحساب", "إجراء قانوني"],
+      "credentials": ["تحقق من حسابك", "أدخل رمز التحقق", "أدخل كلمة المرور"], "payment": ["ادفع رسوم التوصيل", "غرامة غير مدفوعة", "رسوم جمركية"],
+      "delivery": ["فشل تسليم الطرد", "إعادة جدولة التسليم"], "authority": ["هيئة الزكاة والضريبة والجمارك", "الشرطة"],
+      "job": ["عمل سهل عبر الإنترنت"], "investment": ["عائد مضمون"], "prize": ["استلم جائزتك"], "parking": ["ادفع مخالفة وقوف"], "utility": ["سيتم قطع الكهرباء"]
+    }},
+    "th": {"name": "Thai", "regions": ["TH"], "phrases": {
+      "urgency": ["ยืนยันทันที", "ดำเนินการด่วน"], "threat": ["บัญชีของคุณจะถูกระงับ", "บัญชีถูกล็อก"],
+      "credentials": ["ยืนยันบัญชีของคุณ", "กรอกรหัส otp", "กรอกรหัสผ่าน"], "payment": ["ชำระค่าจัดส่ง", "ค่าปรับค้างชำระ"],
+      "delivery": ["จัดส่งพัสดุไม่สำเร็จ"], "authority": ["กรมสรรพากร", "ตำรวจ"], "job": ["งานออนไลน์ง่ายๆ"], "investment": ["รับประกันผลตอบแทน"]
+    }},
+    "vi": {"name": "Vietnamese", "regions": ["VN"], "phrases": {
+      "urgency": ["xác minh ngay", "hành động ngay"], "threat": ["tài khoản của bạn sẽ bị khóa", "tài khoản bị đình chỉ"],
+      "credentials": ["xác minh tài khoản", "nhập mã otp", "nhập mật khẩu"], "payment": ["thanh toán phí giao hàng", "tiền phạt chưa thanh toán"],
+      "delivery": ["giao bưu kiện thất bại"], "authority": ["tổng cục thuế", "công an"], "job": ["việc làm online dễ dàng"], "investment": ["lợi nhuận đảm bảo"]
+    }},
+    "ja": {"name": "Japanese", "regions": ["JP"], "phrases": {
+      "urgency": ["今すぐ確認", "至急対応"], "threat": ["アカウントが停止されます", "アカウントが凍結"],
+      "credentials": ["アカウントを確認", "認証コードを入力", "パスワードを入力"], "payment": ["配送料を支払う", "未払いの罰金"],
+      "delivery": ["荷物を配達できませんでした", "再配達を予約"], "authority": ["国税庁", "警察庁"], "job": ["簡単な副業"], "investment": ["元本保証"]
+    }},
+    "ko": {"name": "Korean", "regions": ["KR"], "phrases": {
+      "urgency": ["지금 확인하세요", "즉시 조치"], "threat": ["계정이 정지됩니다", "계정이 잠겼습니다"],
+      "credentials": ["계정을 확인하세요", "인증번호를 입력", "비밀번호를 입력"], "payment": ["배송비를 결제", "미납 과태료"],
+      "delivery": ["택배 배송에 실패", "재배송 신청"], "authority": ["국세청", "경찰청"], "job": ["간단한 재택 알바"], "investment": ["수익 보장"]
+    }},
+    "es": {"name": "Spanish", "regions": ["ES", "LATAM"], "phrases": {
+      "urgency": ["verifique ahora", "actúe de inmediato", "acción urgente"], "threat": ["su cuenta será suspendida", "cuenta bloqueada", "acción legal"],
+      "credentials": ["verifique su cuenta", "introduzca el código", "confirme su contraseña"], "payment": ["pague la tasa de entrega", "multa pendiente", "gastos de aduana"],
+      "delivery": ["no se pudo entregar el paquete", "reprogramar la entrega"], "authority": ["agencia tributaria", "policía"],
+      "job": ["trabajo fácil desde casa"], "investment": ["rentabilidad garantizada"], "prize": ["reclame su premio"], "parking": ["pague la multa de estacionamiento"], "utility": ["se cortará la electricidad"]
+    }},
+    "fr": {"name": "French", "regions": ["FR", "CA", "BE", "CH", "Africa"], "phrases": {
+      "urgency": ["vérifiez maintenant", "agissez immédiatement", "action urgente"], "threat": ["votre compte sera suspendu", "compte bloqué", "action en justice"],
+      "credentials": ["vérifiez votre compte", "saisissez le code", "confirmez votre mot de passe"], "payment": ["payez les frais de livraison", "amende impayée", "frais de douane"],
+      "delivery": ["livraison du colis échouée", "reprogrammer la livraison"], "authority": ["administration fiscale", "gendarmerie"],
+      "job": ["travail facile à domicile"], "investment": ["rendement garanti"], "prize": ["réclamez votre prix"], "parking": ["payez l amende de stationnement"], "utility": ["électricité sera coupée"]
+    }},
+    "de": {"name": "German", "regions": ["DE", "AT", "CH"], "phrases": {
+      "urgency": ["jetzt bestätigen", "sofort handeln", "dringende maßnahme"], "threat": ["ihr konto wird gesperrt", "konto gesperrt", "rechtliche schritte"],
+      "credentials": ["bestätigen sie ihr konto", "code eingeben", "passwort bestätigen"], "payment": ["liefergebühr bezahlen", "unbezahltes bußgeld", "zollgebühr"],
+      "delivery": ["paketzustellung fehlgeschlagen", "lieferung neu planen"], "authority": ["finanzamt", "bundespolizei"],
+      "job": ["einfacher online job"], "investment": ["garantierte rendite"], "prize": ["gewinn abholen"], "parking": ["parkbuße bezahlen"], "utility": ["strom wird abgeschaltet"]
+    }},
+    "pt": {"name": "Portuguese", "regions": ["BR", "PT"], "phrases": {
+      "urgency": ["verifique agora", "aja imediatamente", "ação urgente"], "threat": ["sua conta será suspensa", "conta bloqueada", "ação judicial"],
+      "credentials": ["verifique sua conta", "digite o código", "confirme sua senha"], "payment": ["pague a taxa de entrega", "multa não paga", "taxa alfandegária"],
+      "delivery": ["falha na entrega do pacote", "reagendar entrega"], "authority": ["receita federal", "polícia federal"],
+      "job": ["trabalho online fácil"], "investment": ["retorno garantido"], "prize": ["resgate seu prêmio"], "parking": ["pague a multa de estacionamento"], "utility": ["energia será cortada"]
+    }},
+    "it": {"name": "Italian", "regions": ["IT", "CH"], "phrases": {
+      "urgency": ["verifica subito", "agisci immediatamente"], "threat": ["il tuo account sarà sospeso", "account bloccato"],
+      "credentials": ["verifica il tuo account", "inserisci il codice otp"], "payment": ["paga le spese di consegna", "multa non pagata"],
+      "delivery": ["consegna del pacco non riuscita"], "authority": ["agenzia delle entrate"], "job": ["lavoro online facile"], "investment": ["rendimento garantito"]
+    }},
+    "nl": {"name": "Dutch", "regions": ["NL", "BE"], "phrases": {
+      "urgency": ["verifieer nu", "handel onmiddellijk"], "threat": ["uw account wordt geblokkeerd", "account opgeschort"],
+      "credentials": ["verifieer uw account", "voer de code in"], "payment": ["betaal de bezorgkosten", "onbetaalde boete"],
+      "delivery": ["pakketbezorging mislukt"], "authority": ["belastingdienst"], "job": ["gemakkelijk online werk"], "investment": ["gegarandeerd rendement"]
+    }},
+    "ru": {"name": "Russian", "regions": ["RU", "EE", "LV", "KZ"], "phrases": {
+      "urgency": ["подтвердите сейчас", "срочно"], "threat": ["ваш аккаунт будет заблокирован", "учетная запись приостановлена"],
+      "credentials": ["подтвердите учетную запись", "введите код"], "payment": ["оплатите доставку", "неоплаченный штраф"],
+      "delivery": ["доставка посылки не удалась"], "authority": ["налоговая служба"], "job": ["легкая работа онлайн"], "investment": ["гарантированный доход"]
+    }},
+    "uk": {"name": "Ukrainian", "regions": ["UA"], "phrases": {
+      "urgency": ["підтвердьте зараз", "терміново"], "threat": ["ваш обліковий запис буде заблоковано", "рахунок призупинено"],
+      "credentials": ["підтвердьте обліковий запис", "введіть код"], "payment": ["сплатіть доставку", "несплачений штраф"],
+      "delivery": ["доставку посилки не виконано"], "authority": ["податкова служба"], "job": ["легка робота онлайн"], "investment": ["гарантований прибуток"]
+    }},
+    "tr": {"name": "Turkish", "regions": ["TR", "CY"], "phrases": {
+      "urgency": ["şimdi doğrulayın", "hemen işlem yapın"], "threat": ["hesabınız askıya alınacak", "hesap kilitlendi"],
+      "credentials": ["hesabınızı doğrulayın", "doğrulama kodunu girin"], "payment": ["teslimat ücretini ödeyin", "ödenmemiş ceza"],
+      "delivery": ["paket teslimatı başarısız"], "authority": ["gelir idaresi"], "job": ["kolay çevrimiçi iş"], "investment": ["garantili getiri"]
+    }},
+    "fa": {"name": "Persian", "regions": ["IR", "AF"], "phrases": {
+      "urgency": ["همین حالا تأیید کنید", "اقدام فوری"], "threat": ["حساب شما مسدود خواهد شد", "حساب تعلیق شد"],
+      "credentials": ["حساب خود را تأیید کنید", "کد تأیید را وارد کنید"], "payment": ["هزینه ارسال را پرداخت کنید", "جریمه پرداخت نشده"],
+      "delivery": ["تحویل بسته ناموفق بود"], "authority": ["سازمان امور مالیاتی"], "job": ["کار آنلاین آسان"], "investment": ["سود تضمینی"]
+    }},
+    "he": {"name": "Hebrew", "regions": ["IL"], "phrases": {
+      "urgency": ["אמת עכשיו", "פעל מיד"], "threat": ["החשבון שלך ייחסם", "החשבון הושעה"],
+      "credentials": ["אמת את החשבון", "הזן קוד אימות"], "payment": ["שלם דמי משלוח", "קנס שלא שולם"],
+      "delivery": ["מסירת החבילה נכשלה"], "authority": ["רשות המסים"], "job": ["עבודה מקוונת קלה"], "investment": ["תשואה מובטחת"]
+    }},
+    "el": {"name": "Greek", "regions": ["GR", "CY"], "phrases": {
+      "urgency": ["επαληθεύστε τώρα", "ενεργήστε άμεσα"], "threat": ["ο λογαριασμός σας θα ανασταλεί", "κλειδωμένος λογαριασμός"],
+      "credentials": ["επαληθεύστε τον λογαριασμό", "εισαγάγετε τον κωδικό"], "payment": ["πληρώστε τα έξοδα αποστολής", "απλήρωτο πρόστιμο"],
+      "delivery": ["η παράδοση του δέματος απέτυχε"], "authority": ["φορολογική αρχή"], "job": ["εύκολη διαδικτυακή εργασία"], "investment": ["εγγυημένη απόδοση"]
+    }},
+    "pl": {"name": "Polish", "regions": ["PL"], "phrases": {
+      "urgency": ["zweryfikuj teraz", "działaj natychmiast"], "threat": ["twoje konto zostanie zawieszone", "konto zablokowane"],
+      "credentials": ["zweryfikuj swoje konto", "wprowadź kod"], "payment": ["zapłać opłatę za dostawę", "niezapłacony mandat"],
+      "delivery": ["dostawa paczki nie powiodła się"], "authority": ["urząd skarbowy"], "job": ["łatwa praca online"], "investment": ["gwarantowany zwrot"]
+    }},
+    "sw": {"name": "Swahili", "regions": ["KE", "TZ", "UG"], "phrases": {
+      "urgency": ["thibitisha sasa", "chukua hatua mara moja"], "threat": ["akaunti yako itasimamishwa", "akaunti imefungwa"],
+      "credentials": ["thibitisha akaunti yako", "weka msimbo wa uthibitishaji"], "payment": ["lipa ada ya usafirishaji", "faini haijalipwa"],
+      "delivery": ["uwasilishaji wa kifurushi umeshindwa"], "authority": ["mamlaka ya mapato"], "job": ["kazi rahisi mtandaoni"], "investment": ["faida iliyohakikishwa"]
+    }},
+    "fil": {"name": "Filipino", "regions": ["PH"], "phrases": {
+      "urgency": ["i verify ngayon", "kumilos agad", "agarang aksyon"], "threat": ["masususpinde ang iyong account", "naka lock ang account"],
+      "credentials": ["i verify ang iyong account", "ilagay ang otp", "ilagay ang password"], "payment": ["bayaran ang delivery fee", "hindi bayad na multa"],
+      "delivery": ["hindi naihatid ang parcel", "i reschedule ang delivery"], "authority": ["bureau of internal revenue", "philippine national police"],
+      "job": ["madaling online na trabaho"], "investment": ["garantisadong kita"], "prize": ["kunin ang iyong premyo"]
+    }}
+  },
+  "country_profiles": {
+    "SG": {"name": "Singapore", "distinctive_terms": ["singpass", "paynow", "cpf", "iras", "s$", ".gov.sg"]},
+    "MY": {"name": "Malaysia", "distinctive_terms": ["lembaga hasil", "kwsp", "touch n go", "polis diraja malaysia", "rm"]},
+    "ID": {"name": "Indonesia", "distinctive_terms": ["direktorat jenderal pajak", "bpjs kesehatan", "rupiah", "rp"]},
+    "IN": {"name": "India", "distinctive_terms": ["uidai", "aadhaar", "भारतीय स्टेट बैंक", "आयकर विभाग", "₹"]},
+    "PH": {"name": "Philippines", "distinctive_terms": ["gcash", "bureau of internal revenue", "philippine national police", "₱"]},
+    "GB": {"name": "United Kingdom", "distinctive_terms": ["hmrc", "nhs", "royal mail", ".gov.uk"]},
+    "US": {"name": "United States", "distinctive_terms": ["irs", "social security administration", "usps", ".gov"]},
+    "AU": {"name": "Australia", "distinctive_terms": ["mygov", "australian taxation office", "services australia", "auspost"]},
+    "CA": {"name": "Canada", "distinctive_terms": ["canada revenue agency", "service canada", "canada post", ".gc.ca"]},
+    "AE": {"name": "United Arab Emirates", "distinctive_terms": ["uae pass", "federal tax authority", "emirates post", "aed"]},
+    "SA": {"name": "Saudi Arabia", "distinctive_terms": ["absher", "هيئة الزكاة والضريبة والجمارك", "zatca", "sar"]},
+    "JP": {"name": "Japan", "distinctive_terms": ["国税庁", "日本郵便", "警察庁", "¥"]},
+    "KR": {"name": "South Korea", "distinctive_terms": ["국세청", "우체국", "경찰청", "₩"]},
+    "HK": {"name": "Hong Kong", "distinctive_terms": ["警務處", "稅務局", "fps", "hk$"]},
+    "BR": {"name": "Brazil", "distinctive_terms": ["pix", "receita federal", "brl", "r$"]},
+    "TH": {"name": "Thailand", "distinctive_terms": ["promptpay", "กรมสรรพากร", "thai qr", "฿"]},
+    "NL": {"name": "Netherlands", "distinctive_terms": ["belastingdienst", "digid", "postnl"]},
+    "IT": {"name": "Italy", "distinctive_terms": ["agenzia delle entrate", "poste italiane", "spid"]},
+    "TR": {"name": "Türkiye", "distinctive_terms": ["gelir idaresi", "e devlet", "türk lirası"]},
+    "UA": {"name": "Ukraine", "distinctive_terms": ["дія", "податкова служба", "укрпошта"]},
+    "IL": {"name": "Israel", "distinctive_terms": ["רשות המסים", "ביטוח לאומי", "דואר ישראל"]},
+    "PL": {"name": "Poland", "distinctive_terms": ["urząd skarbowy", "poczta polska", "profil zaufany"]}
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "corpus": "validation/synthetic_smoke_corpus.jsonl",
+  "records": 10,
+  "matrix": {
+    "tp": 6,
+    "tn": 3,
+    "fp": 0,
+    "fn": 0,
+    "abstain": 1
+  },
+  "precision": 1.0,
+  "recall": 1.0,
+  "false_positive_rate": 0.0,
+  "abstention_rate": 0.1,
+  "classified_records": 9,
+  "by_region": {
+    "global": {
+      "tp": 3,
+      "tn": 2,
+      "fp": 0,
+      "fn": 0,
+      "abstain": 1
+    },
+    "SG": {
+      "tp": 1,
+      "tn": 1,
+      "fp": 0,
+      "fn": 0,
+      "abstain": 0
+    },
+    "RU": {
+      "tp": 1,
+      "tn": 0,
+      "fp": 0,
+      "fn": 0,
+      "abstain": 0
+    },
+    "TR": {
+      "tp": 1,
+      "tn": 0,
+      "fp": 0,
+      "fn": 0,
+      "abstain": 0
+    }
+  },
+  "failures": [],
+  "warning": "Metrics are only meaningful for an independently sourced, legally usable, time-separated corpus. Do not use the bundled synthetic smoke corpus for product claims."
+}

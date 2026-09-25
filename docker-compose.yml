@@ -1,0 +1,35 @@
+services:
+  qr-shield:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      QR_SHIELD_BLOCKLIST: "${QR_SHIELD_BLOCKLIST:-}"
+      QR_SHIELD_ENV: "${QR_SHIELD_ENV:-production}"
+      QR_SHIELD_ALLOWED_HOSTS: "${QR_SHIELD_ALLOWED_HOSTS:-localhost,127.0.0.1}"
+      QR_SHIELD_API_KEY: "${QR_SHIELD_API_KEY:-}"
+      QR_SHIELD_REPORT_HMAC_KEY: "${QR_SHIELD_REPORT_HMAC_KEY:-}"
+      QR_SHIELD_ALLOW_NETWORK_PREFLIGHT: "${QR_SHIELD_ALLOW_NETWORK_PREFLIGHT:-0}"
+      QR_SHIELD_OCR: "${QR_SHIELD_OCR:-1}"
+      QR_SHIELD_REDACTION_LEVEL: "${QR_SHIELD_REDACTION_LEVEL:-personal}"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,noexec,nosuid
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2.0
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 2048
+    networks:
+      - shield
+    restart: unless-stopped
+
+networks:
+  shield:
+    internal: true

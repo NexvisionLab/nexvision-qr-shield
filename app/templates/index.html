@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Decode a QR image and inspect its destination before opening it.">
+  <title>NexVision QR Shield</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <link rel="stylesheet" href="/static/security-ui.css">
+  <link rel="stylesheet" href="/static/advanced-ui.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="QR Shield home">
+      <span class="brandmark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>NEXVISION <b>QR SHIELD</b></span>
+    </a>
+    <span class="privacy"><span></span> Decode first. Decide safely.</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">OFFLINE OSINT SAFETY TOOL · v{{ version }}</p>
+      <h1>See where a QR code leads<br><em>before it leads you there.</em></h1>
+      <p class="lede">Upload an image, PDF or saved email. QR Shield decodes and examines it without opening the destination or submitting it to any external reputation API.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="panel input-panel">
+        <div class="panel-head">
+          <div><span class="step">01</span><h2>Add QR evidence</h2></div>
+          <span class="tag">IMAGE · PDF · EML</span>
+        </div>
+
+        <form id="uploadForm">
+          <label id="dropzone" class="dropzone" for="qrFile">
+            <input id="qrFile" name="file" type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/tiff,application/pdf,message/rfc822,.eml" required>
+            <span class="scan-icon" aria-hidden="true"><i></i></span>
+            <strong>Drop an image, PDF or EML here</strong>
+            <span>or click to choose evidence</span>
+            <small>Maximum 20 MB · PDF first 10 pages · links are never auto-opened</small>
+            <img id="preview" alt="Selected QR preview">
+          </label>
+
+          <label class="toggle-row">
+            <span><b>Direct destination preflight</b><small>Optional DNS, TLS and redirect check — contacts the destination only</small></span>
+            <input id="networkChecks" type="checkbox"><i></i>
+          </label>
+          <button id="scanButton" type="submit"><span>Decode &amp; safety-check</span><b>→</b></button>
+        </form>
+
+        <div class="divider"><span>or inspect decoded text</span></div>
+        <form id="textForm" class="text-form">
+          <textarea id="payloadText" maxlength="8192" placeholder="Paste a URL or decoded QR payload…"></textarea>
+          <button type="submit" class="secondary">Analyze text</button>
+        </form>
+      </div>
+
+      <div class="panel result-panel" id="resultPanel" aria-live="polite">
+        <div id="emptyState" class="empty-state">
+          <div class="radar"><i></i><i></i><i></i></div>
+          <h2>Ready for inspection</h2>
+          <p>Your result will show the exact payload, recursive decoding, attack-chain stages, brand-spoofing signals, payment and QR structure evidence.</p>
+          <ul><li>No external API</li><li>No JavaScript execution</li><li>No automatic navigation</li></ul>
+        </div>
+        <div id="loadingState" class="loading-state hidden">
+          <div class="loader"></div><h2>Running safe preflight…</h2><p>Decoding and checking the destination without opening it.</p>
+        </div>
+        <div id="errorState" class="error-state hidden"></div>
+        <div id="results" class="results hidden"></div>
+      </div>
+    </section>
+
+    <section class="method">
+      <div><span>01</span><h3>Decode only</h3><p>Extracts the QR payload without following it.</p></div>
+      <div><span>02</span><h3>Detect deception</h3><p>Finds spoofing, hidden URLs and encoded payloads offline.</p></div>
+      <div><span>03</span><h3>Validate structure</h3><p>Checks URL, payment, Wi-Fi and image integrity signals.</p></div>
+      <div><span>04</span><h3>Explain the verdict</h3><p>Every score is tied to a visible finding.</p></div>
+    </section>
+  </main>
+
+  <footer><span>NexVision OSINT360</span><span>Results are decision support, not a guarantee of safety.</span></footer>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

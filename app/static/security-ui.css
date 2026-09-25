@@ -1,0 +1,19 @@
+.privacy-badge {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  border: 1px solid #6c5529;
+  border-radius: 20px;
+  color: var(--amber);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.local-label { margin-top: 14px; }
+.meta small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
