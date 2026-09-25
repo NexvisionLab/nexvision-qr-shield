@@ -35,6 +35,7 @@ All notable changes to NexVision QR Shield are recorded here.
 - Release notes were consolidated into this changelog; the architecture documents and test modules were renamed without version suffixes.
 - The README documents what the production `docker-compose.yml` needs before it is reachable (secrets, an ingress proxy on the internal network, UI authentication).
 - Dependabot updates `github/codeql-action/init` and `analyze` together; separate bumps failed CodeQL.
+- Dependencies: uvicorn 0.53.0, opencv-python-headless 5.0.0.93, python-multipart 0.0.32, tldextract 5.3.2, pytest 9.1.1; `requirements.lock` re-resolved for Linux/Python 3.12 (filelock 4.0.3) so the container installs the same versions. CI uses actions/checkout v7.0.1, actions/setup-python v7.0.0 and CodeQL v4.38.1.
 
 ## [5.0.1] - 2026-09-23
 
