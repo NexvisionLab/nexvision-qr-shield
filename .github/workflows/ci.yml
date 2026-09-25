@@ -31,7 +31,20 @@ jobs:
       - name: Audit runtime dependencies
         run: python -m pip_audit --requirement requirements.lock
       - name: Scan tracked content for secrets
-        run: detect-secrets scan --all-files --exclude-files '(^|/)(\.git|\.venv|build|dist)/'
+        run: |
+          detect-secrets scan --all-files --exclude-files '(^|/)(\.git|\.venv|\.pytest_cache|\.ruff_cache|\.hypothesis|build|dist)/' > /tmp/detect-secrets.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("/tmp/detect-secrets.json").read_text())
+          findings = report.get("results", {})
+          if findings:
+              for path, items in sorted(findings.items()):
+                  print(f"{path}: {len(items)} potential secret(s)")
+              raise SystemExit("Potential secrets detected; publication blocked.")
+          print("No potential secrets detected.")
+          PY
       - name: Lint
         run: ruff check .
       - name: Static security analysis
