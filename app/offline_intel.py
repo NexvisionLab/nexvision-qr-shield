@@ -7,6 +7,8 @@ from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
+import idna
+
 BASE = Path(__file__).resolve().parent
 
 
@@ -17,17 +19,22 @@ def _canonical_url(value: str) -> str:
         if not parsed.scheme or not parsed.hostname:
             return value.strip()
         host = parsed.hostname.casefold().rstrip(".")
+        if not host.isascii():
+            # Match the punycode form the analyzer produces for IDN hosts.
+            host = idna.encode(host, uts46=True, std3_rules=True).decode("ascii")
         if ":" in host and not host.startswith("["):
             host = f"[{host}]"
-        port = f":{parsed.port}" if parsed.port else ""
+        default_port = {"http": 80, "https": 443}.get(parsed.scheme.casefold())
+        port = f":{parsed.port}" if parsed.port and parsed.port != default_port else ""
         userinfo = ""
         if parsed.username is not None:
             userinfo = parsed.username
             if parsed.password is not None:
                 userinfo += f":{parsed.password}"
             userinfo += "@"
-        return urlunsplit((parsed.scheme.casefold(), userinfo + host + port, parsed.path, parsed.query, parsed.fragment))
-    except (ValueError, UnicodeError):
+        # The analyzer's normalized URL always has a path and never a fragment.
+        return urlunsplit((parsed.scheme.casefold(), userinfo + host + port, parsed.path or "/", parsed.query, ""))
+    except (ValueError, UnicodeError, idna.IDNAError):
         return value.strip()
 
 

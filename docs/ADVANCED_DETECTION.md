@@ -1,8 +1,8 @@
-# v4 Advanced Detection Architecture
+# Advanced Detection Architecture
 
 ## Research decision
 
-QR Shield v4 uses several independent evidence layers. Official guidance emphasizes that QR codes conceal destinations and can lead to spoofed credential pages, malware downloads, payment deception and social engineering. Research also shows that QR structural and pixel features can provide signal, but published results are dataset-dependent and do not establish that a particular physical QR is malicious.
+QR Shield uses several independent evidence layers. Official guidance emphasizes that QR codes conceal destinations and can lead to spoofed credential pages, malware downloads, payment deception and social engineering. Research also shows that QR structural and pixel features can provide signal, but published results are dataset-dependent and do not establish that a particular physical QR is malicious.
 
 For that reason, QR structure is reported as supporting context only. Scored findings are based on the decoded action, destination identity, concealment method, social-engineering intent, payment integrity and correlated attack stages.
 

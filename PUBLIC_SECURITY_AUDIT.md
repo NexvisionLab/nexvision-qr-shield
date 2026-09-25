@@ -1,7 +1,6 @@
-# Public Security Audit — v5.0.1
+# Public Security Audit
 
-**Audit date:** 23 September 2026  
-**Release status:** Production candidate  
+**Version audited:** 5.0.1 (23 September 2026)  
 **Scope:** Application, tests, dependencies, container configuration, release metadata, documentation, and distributable Python artifacts.
 
 ## Executive summary
@@ -42,9 +41,7 @@ This audit does not prove the absence of vulnerabilities. Container execution an
 
 ## Privacy and publication review
 
-The audit searched source, tests, configuration, documentation, workflows, and release files for common credential formats, high-entropy assignments, private keys, email addresses, telephone patterns, personal contact fields, and assistant/prompt artifacts. The only email-like construction found was the reserved-domain URL-userinfo example `trusted.example@evil.example`; it is synthetic and documents a deception pattern.
-
-No visible assistant or prompt artifacts were found in the audited publication scope. This statement concerns visible artifacts only and does not make an authorship claim.
+The audit searched source, tests, configuration, documentation, workflows, and release files for common credential formats, high-entropy assignments, private keys, email addresses, telephone patterns, and personal contact fields. The only email-like construction found was the reserved-domain URL-userinfo example `trusted.example@evil.example`; it is synthetic and documents a deception pattern.
 
 ## Residual production gates
 
@@ -54,17 +51,3 @@ No visible assistant or prompt artifacts were found in the audited publication s
 - Configure distinct generated secrets, TLS, trusted hosts, authentication, request limits, logs, alerting, backup, and incident response.
 - Validate multilingual and country-specific heuristics against representative local datasets and monitor false positives and false negatives.
 - Obtain a separate written commercial licence before commercial use, production deployment, a hosted service, paid service, or commercial redistribution.
-
-## Licence
-
-Copyright © 2026 NexVision Lab.
-
-This project is source-available under the PolyForm Noncommercial
-License 1.0.0. It may be used, studied and modified for permitted
-non-commercial purposes.
-
-Commercial use, paid services, commercial redistribution,
-production deployment and hosted services require a separate
-written licence from NexVision Lab.
-
-SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0

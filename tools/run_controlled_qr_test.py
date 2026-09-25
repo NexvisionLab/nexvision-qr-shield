@@ -18,7 +18,7 @@ from app import __version__
 from app.analyzer import analyze_payload
 from app.decoder import decode_qr
 
-OUT = ROOT.parent / "qr_shield_controlled_test_v5_0_1"
+OUT = ROOT / "build" / "controlled_qr_test"
 
 CANARY = "REDACTION-CANARY-92"
 PAYLOAD = (

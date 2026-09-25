@@ -29,7 +29,7 @@ OPEN_REDIRECT_KEYS = {
     "url", "uri", "redirect", "redirect_url", "redirect_uri", "return", "returnto",
     "return_url", "next", "continue", "dest", "destination", "target", "link", "goto",
 }
-SENSITIVE_KEYS = {"password", "passwd", "pwd", "token", "access_token", "secret", "otp", "pin", "apikey", "api_key"}
+SENSITIVE_KEYS = {"password", "passwd", "pwd", "token", "access_token", "secret", "otp", "pin", "apikey", "api_key", "client_secret", "id_token"}
 EXECUTABLE_MIME_HINTS = {"application", "download", "attachment", "installer", "setup"}
 ZERO_WIDTH_OR_BIDI = {
     "\u200b", "\u200c", "\u200d", "\u2060", "\ufeff", "\u202a", "\u202b", "\u202d",
@@ -140,10 +140,11 @@ def _parse_ipv4_number(part: str) -> tuple[int, int] | None:
 def _obfuscated_ip(host: str) -> str | None:
     lower = host.lower().strip("[]")
     try:
-        if lower.startswith("0x"):
-            number = int(lower, 16)
-        elif lower.isdigit() and len(lower) >= 8:
-            number = int(lower, 10)
+        if "." not in lower:
+            single = _parse_ipv4_number(lower)
+            if single is None or (single[1] == 10 and len(lower) < 8):
+                return None
+            number = single[0]
         else:
             parts = lower.split(".")
             if not 1 <= len(parts) <= 4:
@@ -235,8 +236,12 @@ def analyze_url_offline(raw_url: str, normalized_url: str, display_host: str, as
         brands = ", ".join(brand for brand, _ in brand_hits[:5])
         findings.append(finding("BRAND_IMPERSONATION", "Possible brand impersonation", f"Hostname resembles or contains: {brands}, but is not an approved domain.", "critical", 46))
 
-    if p.hostname and registered and p.hostname.lower() != registered and any(
-        len(brand.replace(" ", "")) >= 3 and brand.replace(" ", "") in confusable_skeleton(".".join(p.hostname.lower().split(".")[:-2])).replace("-", "") for brand in brand_domains()
+    subdomain = EXTRACT(ascii_host).subdomain.lower()
+    if subdomain and registered and any(
+        len(brand.replace(" ", "")) >= 3
+        and brand.replace(" ", "") in confusable_skeleton(subdomain).replace("-", "")
+        and not (registered in official_domains or any(registered.endswith("." + item) for item in official_domains))
+        for brand, official_domains in brand_domains().items()
     ):
         findings.append(finding("BRAND_IN_SUBDOMAIN", "Trusted-looking name appears only in a subdomain", f"The controlling domain is {registered}.", "critical", 38))
 

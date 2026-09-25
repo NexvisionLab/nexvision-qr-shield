@@ -8,6 +8,7 @@ from urllib.parse import parse_qsl, unquote, urlencode, urlsplit, urlunsplit
 SECRET_KEYS = {
     "secret", "token", "access_token", "refresh_token", "apikey", "api_key",
     "password", "passwd", "pwd", "pin", "otp", "key", "private_key", "symkey",
+    "client_secret", "id_token",
 }
 URL_RE = re.compile(r"(?i)https?://[^\s<>\"']+")
 
@@ -31,6 +32,17 @@ def _redact_embedded_urls(value: str, depth: int) -> tuple[str, list[str]]:
         return safe
 
     return URL_RE.sub(replace, value), fields
+
+
+def _redact_nested_value(value: str, depth: int) -> tuple[str, list[str]]:
+    scheme = value.split(":", 1)[0].casefold() if ":" in value else ""
+    if scheme in {"otpauth", "otpauth-migration"}:
+        safe, nested = redact_payload(value, "authentication-secret", depth + 1)
+    elif scheme in {"http", "https"}:
+        safe, nested = redact_payload(value, "url", depth + 1)
+    else:
+        return _redact_fragment(value, depth)
+    return safe, [f"nested.{name}" for name in nested]
 
 
 def _redact_fragment(fragment: str, depth: int) -> tuple[str, list[str]]:
@@ -96,12 +108,12 @@ def redact_payload(payload: str, kind: str, _depth: int = 0) -> tuple[str, list[
         return f"{scheme}:[REDACTED ACTION DATA]", ["action_data"]
     if kind == "wifi":
         if payload.casefold().startswith("dpp:"):
-            changed = re.sub(r"(?i)(?<!\\)(K:)(.*?)(?<!\\);", r"\1[REDACTED];", payload)
+            changed = re.sub(r"(?i)(?<!\\)(K:)(.*?)((?<!\\);|$)", r"\1[REDACTED]\3", payload)
             return changed, ["dpp_bootstrap_key"] if changed != payload else []
         def replace(match: re.Match[str]) -> str:
             fields.append("wifi_password")
-            return f"{match.group(1)}[REDACTED]"
-        return re.sub(r"(?i)(?<!\\)(P:)(.*?)(?<!\\);", replace, payload), sorted(set(fields))
+            return f"{match.group(1)}[REDACTED]{match.group(3)}"
+        return re.sub(r"(?i)(?<!\\)(P:)(.*?)((?<!\\);|$)", replace, payload), sorted(set(fields))
     if kind == "epc-payment":
         lines = payload.replace("\r\n", "\n").split("\n")
         if len(lines) > 6 and lines[6]:
@@ -145,7 +157,7 @@ def redact_payload(payload: str, kind: str, _depth: int = 0) -> tuple[str, list[
                     value = "[REDACTED]"
                 elif _depth < 3:
                     decoded = _decode_repeated(value)
-                    nested, nested_fields = _redact_embedded_urls(decoded, _depth)
+                    nested, nested_fields = _redact_nested_value(decoded, _depth)
                     if nested_fields:
                         value = nested
                         fields.extend(nested_fields)

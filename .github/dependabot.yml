@@ -8,6 +8,11 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
+    groups:
+      # init and analyze must move together; a split bump fails CodeQL.
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"
   - package-ecosystem: docker
     directory: "/"
     schedule:

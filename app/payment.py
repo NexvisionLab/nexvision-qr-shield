@@ -155,9 +155,9 @@ def analyze_emv_qr(payload: str) -> dict:
     issues.extend(profile_issues)
     if by_tag.get("00") != "01":
         issues.append("unsupported or missing payload format version")
-    if by_tag.get("54") and not re.fullmatch(r"\d{1,13}(?:\.\d{1,2})?", by_tag["54"]):
+    if by_tag.get("54") and not re.fullmatch(r"[0-9]{1,13}(?:\.[0-9]{1,2})?", by_tag["54"]):
         issues.append("invalid transaction amount format")
-    if by_tag.get("53") and not re.fullmatch(r"\d{3}", by_tag["53"]):
+    if by_tag.get("53") and not re.fullmatch(r"[0-9]{3}", by_tag["53"]):
         issues.append("invalid numeric currency code")
     if by_tag.get("58") and not re.fullmatch(r"[A-Z]{2}", by_tag["58"]):
         issues.append("invalid country code")
@@ -166,7 +166,7 @@ def analyze_emv_qr(payload: str) -> dict:
     if by_tag.get("60") and len(by_tag["60"].encode("utf-8")) > 15:
         issues.append("merchant city exceeds 15 UTF-8 bytes")
     crc_fields = [field for field in fields if field["tag"] == "63"]
-    if crc_fields and len(crc_fields[-1]["value"]) == 4 and payload.rfind("6304") == len(payload) - 8:
+    if crc_fields and len(crc_fields[-1]["value"]) == 4 and payload[-8:-4] == "6304":
         supplied = crc_fields[-1]["value"].upper()
         expected = crc16_ccitt_false(payload[:-4])
         details.update({"crc_supplied": supplied, "crc_expected": expected, "crc_valid": supplied == expected})
@@ -181,7 +181,7 @@ def analyze_emv_qr(payload: str) -> dict:
 
 def iban_valid(value: str) -> bool:
     compact = re.sub(r"\s+", "", value).upper()
-    if not re.fullmatch(r"[A-Z]{2}\d{2}[A-Z0-9]{11,30}", compact):
+    if not re.fullmatch(r"[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}", compact):
         return False
     rearranged = compact[4:] + compact[:4]
     numeric = "".join(str(ord(char) - 55) if char.isalpha() else char for char in rearranged)
@@ -194,7 +194,7 @@ def iban_valid(value: str) -> bool:
 def creditor_reference_valid(value: str) -> bool:
     """Validate an ISO 11649 RF creditor reference using its own length rules."""
     compact = re.sub(r"\s+", "", value).upper()
-    if not re.fullmatch(r"RF\d{2}[A-Z0-9]{1,21}", compact):
+    if not re.fullmatch(r"RF[0-9]{2}[A-Z0-9]{1,21}", compact):
         return False
     rearranged = compact[4:] + compact[:4]
     numeric = "".join(str(ord(char) - 55) if char.isalpha() else char for char in rearranged)
@@ -212,7 +212,7 @@ def analyze_epc_qr(payload: str) -> dict:
     amount_valid = not amount_text
     amount = None
     if amount_text:
-        match = re.fullmatch(r"EUR(\d{1,8}(?:\.\d{1,2})?)", amount_text)
+        match = re.fullmatch(r"EUR([0-9]{1,9}(?:\.[0-9]{1,2})?)", amount_text)
         if match:
             try:
                 value = Decimal(match.group(1))
@@ -224,15 +224,18 @@ def analyze_epc_qr(payload: str) -> dict:
     issues = []
     if fields[0] != "BCD": issues.append("service tag is not BCD")
     if fields[1] not in {"001", "002"}: issues.append("unsupported EPC version")
-    if fields[2] not in {"1", "2"}: issues.append("unsupported character set")
+    if fields[2] not in {"1", "2", "3", "4", "5", "6", "7", "8"}: issues.append("unsupported character set")
     if fields[3] != "SCT": issues.append("identification is not SCT")
     if fields[4] and not re.fullmatch(r"[A-Z]{6}[A-Z0-9]{2}(?:[A-Z0-9]{3})?", fields[4]):
         issues.append("BIC format is invalid")
     if not iban_valid(iban): issues.append("IBAN checksum or format is invalid")
     if not fields[5].strip(): issues.append("beneficiary name is missing")
     if not amount_valid: issues.append("amount is invalid or outside the EPC limit")
-    if fields[8] and fields[8] not in {"CHAR", "EACT", "GDDS", "GOVT", "OTHR", "SUPP", "TRAD"}:
-        issues.append("purpose code is unrecognized")
+    if fields[1] == "001" and not fields[4]: issues.append("BIC is required in EPC version 001")
+    if len(payload.rstrip("\r\n").replace("\r\n", "\n").split("\n")) > 12: issues.append("payload has more than 12 EPC lines")
+    if len(fields[5]) > 70: issues.append("beneficiary name exceeds 70 characters")
+    if fields[8] and not re.fullmatch(r"[A-Z0-9]{4}", fields[8]):
+        issues.append("purpose code format is invalid")
     if fields[9] and fields[10]:
         issues.append("structured and unstructured remittance fields are both populated")
     if fields[9] and not creditor_reference_valid(fields[9]):
@@ -267,6 +270,8 @@ def analyze_upi_uri(payload: str) -> dict:
         issues.append("missing or invalid virtual payment address")
     if amount:
         try:
+            if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", amount):
+                raise InvalidOperation
             numeric = Decimal(amount)
             if numeric <= 0 or numeric > Decimal(1000000000): issues.append("amount is outside supported bounds")
         except InvalidOperation:
@@ -289,17 +294,22 @@ def analyze_crypto_uri(payload: str) -> dict:
     query = dict(parse_qsl(parsed.query, keep_blank_values=True))
     issues = []
     if scheme == "ethereum":
-        core = address.split("@", 1)[0]
+        core = address.removeprefix("pay-").split("@", 1)[0].split("/", 1)[0]
         if not re.fullmatch(r"0x[0-9a-fA-F]{40}", core): issues.append("invalid Ethereum address format")
     elif scheme == "bitcoin":
-        if not re.fullmatch(r"(?:[13][1-9A-HJ-NP-Za-km-z]{25,34}|bc1[ac-hj-np-z02-9]{11,71})", address, re.IGNORECASE):
+        if not (re.fullmatch(r"[13][1-9A-HJ-NP-Za-km-z]{25,34}", address) or (
+            address in {address.lower(), address.upper()} and re.fullmatch(r"bc1[ac-hj-np-z02-9]{11,71}", address.lower())
+        )):
             issues.append("invalid Bitcoin address format")
-    elif scheme == "litecoin" and not re.fullmatch(r"(?:[LM3][1-9A-HJ-NP-Za-km-z]{25,34}|ltc1[ac-hj-np-z02-9]{11,71})", address, re.IGNORECASE):
+    elif scheme == "litecoin" and not (re.fullmatch(r"[LM3][1-9A-HJ-NP-Za-km-z]{25,34}", address) or (
+        address in {address.lower(), address.upper()} and re.fullmatch(r"ltc1[ac-hj-np-z02-9]{11,71}", address.lower())
+    )):
         issues.append("invalid Litecoin address format")
     elif scheme == "monero" and not re.fullmatch(r"[48][1-9A-HJ-NP-Za-km-z]{94,105}", address):
         issues.append("invalid Monero address format")
     amount = query.get("amount") or query.get("value")
-    if amount and not re.fullmatch(r"\d+(?:\.\d+)?", amount): issues.append("invalid payment amount")
+    amount_pattern = r"[0-9]+(?:\.[0-9]+)?(?:[eE][0-9]+)?" if scheme == "ethereum" else r"[0-9]+(?:\.[0-9]+)?"
+    if amount and not re.fullmatch(amount_pattern, amount): issues.append("invalid payment amount")
     return {
         "network": scheme, "address_present": bool(address),
         "address_sha256": hashlib.sha256(address.encode()).hexdigest() if address else None,

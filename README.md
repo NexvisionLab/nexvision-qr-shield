@@ -1,22 +1,12 @@
-# NexVision QR Shield v5.0.1 — Production Candidate
+# NexVision QR Shield
 
 [![Security and test gate](https://github.com/NexvisionLab/nexvision-qr-shield/actions/workflows/ci.yml/badge.svg)](https://github.com/NexvisionLab/nexvision-qr-shield/actions/workflows/ci.yml)
 
 A self-contained OSINT QR-code checker that decodes images, PDFs and saved email evidence and analyzes their payloads **without opening destinations or depending on any external reputation API**.
 
-This is a source-available, non-commercial project. Before deploying it, review the [public security audit](PUBLIC_SECURITY_AUDIT.md), [security policy](SECURITY.md), [contribution guide](CONTRIBUTING.md), and [production architecture](docs/V5_PRODUCTION_ARCHITECTURE.md).
+This is a source-available, non-commercial project. Before deploying it, review the [public security audit](PUBLIC_SECURITY_AUDIT.md), [security policy](SECURITY.md), [contribution guide](CONTRIBUTING.md), and [production deployment guide](docs/PRODUCTION_DEPLOYMENT.md).
 
-## v5 production additions
-
-- Fixed full-secret leakage from `otpauth-migration` exports before any result or report is built.
-- Restricted enhanced decoding to QR Code, Micro QR and rMQR; other barcode families are rejected.
-- Structural EMV classification plus Pix, PromptPay, PayNow, DuitNow and possible QRIS profiles.
-- Browser/server URL authority ambiguity now forces abstention and blocks active inspection.
-- Structured FIDO/account-link sessions, Android intent fallback, UPI, cryptocurrency and GS1 analysis.
-- Image, single-page TIFF, PDF and EML ingestion with optional local OCR context.
-- Canonical result hashes, optional HMAC evidence signatures and production request controls.
-- Privacy-safe session/action handling, including URL fragments and URLs nested in email or SMS payloads.
-- Fail-closed production readiness checks for distinct, high-entropy API and report-signing secrets.
+See [CHANGELOG.md](CHANGELOG.md) for the release history.
 
 ## Core capabilities
 
@@ -35,7 +25,7 @@ This is a source-available, non-commercial project. Before deploying it, review 
 
 ### Multilingual and country-aware scam detection
 
-- Versioned local policy for 29 language variants, adding Italian, Dutch, Russian, Ukrainian, Turkish, Persian, Hebrew, Greek, Polish and Swahili to the v4 set.
+- Versioned local policy for 29 language variants.
 - Detects coordinated combinations of urgency/threat language with credential, payment, delivery, authority, job, investment, prize and app-installation requests.
 - Country-specific institution and payment cues for Singapore, Malaysia, Indonesia, India, the Philippines, the UK, US, Australia, Canada, UAE, Saudi Arabia, Japan, South Korea and Hong Kong.
 - Region values are explicitly labelled heuristic possibilities—not IP geolocation, attribution or proof of origin.
@@ -138,6 +128,15 @@ Docker:
 docker compose up --build
 ```
 
+`docker-compose.yml` is a hardened production template, not a local demo:
+
+- It starts in production mode, so `/health` and the API return 503 until `QR_SHIELD_API_KEY`, `QR_SHIELD_REPORT_HMAC_KEY` and `QR_SHIELD_ALLOWED_HOSTS` are set.
+- The `shield` network is `internal: true` to deny all egress. Docker does not publish ports for a container on an internal-only network, so put a reverse proxy on the `shield` network (and on an ingress network) to reach the service.
+- The container health check connects to `127.0.0.1`; keep `127.0.0.1` in `QR_SHIELD_ALLOWED_HOSTS`.
+- The browser UI does not send the API key. When the key is set, serve the UI behind an identity-aware proxy that adds the `X-API-Key` header (see [production deployment](docs/PRODUCTION_DEPLOYMENT.md)).
+
+For a quick local trial, use the `uvicorn` command above.
+
 ## Local intelligence policy
 
 Edit `app/data/local_blocklist.txt` or set `QR_SHIELD_BLOCKLIST` to an administrator-maintained file:
@@ -205,7 +204,7 @@ See `docs/RESEARCH_AND_DETECTION.md` for the feature-to-threat mapping.
 pytest -q
 ```
 
-The v5.0.1 suite contains 165 tests covering QR-family allowlisting, image/PDF/EML decoding, nested and action/session secret redaction, strict API types, fail-closed production controls, parser abstention, no-network guarantees, IPv4/IPv6/IDNA, Unicode confusables, recursive destinations, international brand impersonation, account-link sessions, regional payments, Wi-Fi/DPP risks, grouped scoring, 29 localized policies, property fuzzing and benign controls.
+The suite covers QR-family allowlisting, image/PDF/EML decoding, nested and action/session secret redaction, strict API types, fail-closed production controls, parser abstention, no-network guarantees, IPv4/IPv6/IDNA, Unicode confusables, recursive destinations, international brand impersonation, account-link sessions, regional payments, Wi-Fi/DPP risks, grouped scoring, 29 localized policies, property fuzzing and benign controls.
 
 Run the bundled validation harness with an authorized JSONL corpus:
 

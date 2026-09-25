@@ -2,7 +2,7 @@
 
 ## Threat-to-control mapping
 
-| Threat observed in official guidance | Offline v5.0 control |
+| Threat observed in official guidance | Offline control |
 |---|---|
 | QR hides a link from the user and image-unaware email controls | Decode without navigation; display the exact payload and controlling domain |
 | Failed delivery, account problem and password-reset pretexts create urgency | Require combinations of pressure and action language across localized packs |

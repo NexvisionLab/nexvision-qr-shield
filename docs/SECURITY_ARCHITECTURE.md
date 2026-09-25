@@ -1,4 +1,4 @@
-# v3 security architecture
+# Security Architecture
 
 ## Trust boundaries
 

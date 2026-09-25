@@ -18,6 +18,7 @@ from urllib.parse import parse_qsl, unquote, urljoin, urlsplit, urlunsplit
 
 import idna
 
+from . import __version__
 from .advanced_url import analyze_advanced_url
 from .evasion import analyze_evasion
 from .models import AnalysisResult, Finding
@@ -177,9 +178,20 @@ def _seal_result(result: AnalysisResult) -> None:
         result.evidence_integrity.update({"signed": True, "signature_algorithm": "HMAC-SHA256", "signature": hmac.new(key, canonical, hashlib.sha256).hexdigest()})
 
 
+NAT64_PREFIX = ipaddress.ip_network("64:ff9b::/96")
+
+
 def _is_public_ip(value: str) -> bool:
-    try: return ipaddress.ip_address(value).is_global
-    except ValueError: return False
+    try:
+        address = ipaddress.ip_address(value)
+    except ValueError:
+        return False
+    if isinstance(address, ipaddress.IPv6Address):
+        if address.ipv4_mapped:
+            return address.ipv4_mapped.is_global
+        if address in NAT64_PREFIX:
+            return ipaddress.IPv4Address(int(address) & 0xFFFFFFFF).is_global
+    return address.is_global
 
 
 async def resolve_public_ips(host: str) -> tuple[list[str], list[str]]:
@@ -281,7 +293,7 @@ async def _pinned_headers(url: str, ip: str, method: str = "HEAD") -> tuple[int,
             host_header += f":{parsed.port}"
         request = (
             f"{method} {target} HTTP/1.1\r\nHost: {host_header}\r\n"
-            "User-Agent: NexVision-QR-Shield/5.0.1\r\nAccept: */*\r\n"
+            f"User-Agent: NexVision-QR-Shield/{__version__}\r\nAccept: */*\r\n"
             "Connection: close\r\nRange: bytes=0-0\r\n\r\n"
         )
         writer.write(request.encode("ascii", errors="strict")); await writer.drain()
@@ -289,7 +301,10 @@ async def _pinned_headers(url: str, ip: str, method: str = "HEAD") -> tuple[int,
         if len(raw) > 65536:
             raise ValueError("Response headers exceed limit")
         lines = raw.decode("iso-8859-1").split("\r\n")
-        status = int(lines[0].split(" ", 2)[1])
+        status_parts = lines[0].split(" ", 2)
+        if len(status_parts) < 2 or not status_parts[1].isdigit():
+            raise ValueError("Malformed HTTP status line")
+        status = int(status_parts[1])
         headers: dict[str, str] = {}
         for line in lines[1:]:
             if ":" in line:
@@ -320,7 +335,10 @@ async def inspect_redirects(start_url: str, max_hops: int = 5) -> tuple[list[dic
             chain.append({"url": redact_payload(current, "url")[0], "status": status, "connected_ip": peer_ip, "content_type": content_type, "content_disposition": disposition})
             if disposition and "attachment" in disposition.lower(): findings.append(_finding("ATTACHMENT_RESPONSE", "Destination returns a download", "The server marks its response as an attachment.", "high", 26))
             if status not in {301, 302, 303, 307, 308} or not location: break
-            next_url, next_p = urljoin(current, location), urlsplit(urljoin(current, location))
+            try:
+                next_url = urljoin(current, location); next_p = urlsplit(next_url); next_port = next_p.port
+            except ValueError:
+                findings.append(_finding("MALFORMED_REDIRECT", "Malformed redirect destination", "The Location header is not safely parseable.", "high", 30)); break
             if next_p.scheme not in {"http", "https"}: findings.append(_finding("REDIRECT_SCHEME", "Redirect switches to a non-web scheme", f"Redirect target scheme: {next_p.scheme or 'none'}.", "critical", 40)); break
             chain[-1]["location"] = redact_payload(next_url, "url")[0]
             if next_p.hostname != origin_host: findings.append(_finding("CROSS_DOMAIN_REDIRECT", "Redirect leaves the original domain", f"Redirects to {next_p.hostname}.", "medium", 14))
@@ -329,7 +347,9 @@ async def inspect_redirects(start_url: str, max_hops: int = 5) -> tuple[list[dic
                 extra, _ = analyze_url_offline(next_url, normalized, display, ascii_host); findings.extend(extra)
             except (ValueError, UnicodeError):
                 findings.append(_finding("MALFORMED_REDIRECT", "Malformed redirect destination", "The Location header is not safely parseable.", "high", 30)); break
-            current = next_url
+            if (next_port or (443 if next_p.scheme == "https" else 80)) not in {80, 443}:
+                findings.append(_finding("PREFLIGHT_PORT_BLOCKED", "Direct preflight port blocked", "A redirect requested a port other than 80 or 443; it was not followed.", "medium", 10)); break
+            current = normalized
     else: findings.append(_finding("REDIRECT_LIMIT", "Long redirect chain", f"More than {max_hops} redirects were encountered.", "medium", 12))
     return chain, findings
 
@@ -467,6 +487,7 @@ def _apply_verdict(result: AnalysisResult) -> None:
 
 
 async def analyze_payload(payload: str, sha256: str | None = None, network_checks: bool = False, image_analysis: dict | None = None, context_text: str | None = None) -> AnalysisResult:
+    payload = payload.encode("utf-8", "surrogatepass").decode("utf-8", "replace")
     payload, kind = payload.strip(), classify_payload(payload)
     safe_payload, sensitive_fields = redact_payload(payload, kind)
     safe_image = dict(image_analysis or {})

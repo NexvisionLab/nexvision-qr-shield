@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from typing import Any, Literal
 
+from . import __version__
+
 Severity = Literal["info", "low", "medium", "high", "critical"]
 
 
@@ -36,7 +38,7 @@ class AnalysisResult:
     evidence_integrity: dict[str, Any] = field(default_factory=dict)
     engine: dict[str, Any] = field(default_factory=lambda: {
         "name": "QR Shield Offline Detection Engine",
-        "version": "5.0.1",
+        "version": __version__,
         "score_type": "explainable risk index; not a probability",
         "external_api_required": False,
     })
