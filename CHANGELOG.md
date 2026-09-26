@@ -28,6 +28,7 @@ All notable changes to NexVision QR Shield are recorded here.
 - A payload containing an unpaired UTF-16 surrogate no longer raises during result sealing.
 - The command-line tool now prints a short error and exits with status 2 for a missing file or an unreadable image, PDF or email instead of a Python traceback.
 - The engine version in results, the preflight `User-Agent` and the SBOM generator now read the package version instead of repeating a hard-coded string.
+- `tools/generate_sbom.py` recorded whatever version was installed in the build environment (including test-only packages) and labelled it validated; it now records the pinned `requirements.lock` versions and states whether the environment matched each pin. `SBOM.spdx.json` was regenerated.
 - `tools/run_controlled_qr_test.py` writes its report to `build/controlled_qr_test/` inside the checkout instead of the parent directory.
 
 ### Changed

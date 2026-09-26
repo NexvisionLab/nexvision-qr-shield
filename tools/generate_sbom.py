@@ -11,28 +11,30 @@ VERSION = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["
 SYSTEM_PACKAGES = ("poppler-utils", "tesseract-ocr")
 
 
+def locked_versions() -> dict[str, str]:
+    pins: dict[str, str] = {}
+    for raw in (ROOT / "requirements.lock").read_text(encoding="utf-8").splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if not line or line.startswith("-"):
+            continue
+        name, separator, version = line.partition("==")
+        if not separator:
+            raise SystemExit(f"requirements.lock entry is not pinned: {line}")
+        pins[name.split("[", 1)[0].strip()] = version.strip()
+    return pins
+
+
 def dependencies() -> list[dict]:
-    names = []
-    for filename in ("requirements.lock",):
-        for raw in (ROOT / filename).read_text(encoding="utf-8").splitlines():
-            line = raw.strip()
-            if not line or line.startswith(("#", "-r")):
-                continue
-            name = line.split("[", 1)[0].split("=", 1)[0].split("<", 1)[0].split(">", 1)[0]
-            names.append(name)
+    # The SBOM describes the pinned runtime lock; the local environment only
+    # confirms (or fails to confirm) each pin, it never changes the version.
     packages = []
-    declared = [
-        line
-        for filename in ("requirements.lock",)
-        for line in (ROOT / filename).read_text(encoding="utf-8").splitlines()
-    ]
-    for name in sorted(set(names), key=str.casefold):
+    for name, version in sorted(locked_versions().items(), key=lambda item: item[0].casefold()):
         try:
-            version = importlib.metadata.version(name)
-            status = "installed-and-validated"
+            installed = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
-            version = next((line.split("==", 1)[1] for line in declared if line.startswith(name + "==")), "unknown")
-            status = "declared-not-installed-in-build-environment"
+            status = "locked; not installed in the SBOM build environment"
+        else:
+            status = "locked; installed version matches" if installed == version else f"locked; build environment has {installed}"
         packages.append({"SPDXID": f"SPDXRef-Package-{name.replace('_', '-')}", "name": name, "versionInfo": version, "supplier": "NOASSERTION", "downloadLocation": "NOASSERTION", "filesAnalyzed": False, "licenseConcluded": "NOASSERTION", "comment": status})
     for name in SYSTEM_PACKAGES:
         packages.append({

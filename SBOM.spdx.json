@@ -5,7 +5,7 @@
   "name": "NexVision-QR-Shield-5.0.1",
   "documentNamespace": "https://nexvision.local/sbom/qr-shield/5.0.1",
   "creationInfo": {
-    "created": "2026-09-23T03:49:44.141066+00:00",
+    "created": "2026-09-26T00:41:26.337395+00:00",
     "creators": [
       "Tool: tools/generate_sbom.py"
     ]
@@ -19,7 +19,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-annotated-types",
@@ -29,7 +29,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-anyio",
@@ -39,7 +39,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-certifi",
@@ -49,7 +49,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-charset-normalizer",
@@ -59,7 +59,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-click",
@@ -69,7 +69,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-fastapi",
@@ -79,17 +79,17 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-filelock",
       "name": "filelock",
-      "versionInfo": "4.0.1",
+      "versionInfo": "4.0.3",
       "supplier": "NOASSERTION",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-h11",
@@ -99,7 +99,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-httptools",
@@ -109,27 +109,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
-    },
-    {
-      "SPDXID": "SPDXRef-Package-httpx2",
-      "name": "httpx2",
-      "versionInfo": "2.13.0",
-      "supplier": "NOASSERTION",
-      "downloadLocation": "NOASSERTION",
-      "filesAnalyzed": false,
-      "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
-    },
-    {
-      "SPDXID": "SPDXRef-Package-hypothesis",
-      "name": "hypothesis",
-      "versionInfo": "6.138.15",
-      "supplier": "NOASSERTION",
-      "downloadLocation": "NOASSERTION",
-      "filesAnalyzed": false,
-      "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-idna",
@@ -139,7 +119,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-jinja2",
@@ -149,7 +129,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-markupsafe",
@@ -159,7 +139,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-numpy",
@@ -169,17 +149,17 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-opencv-python-headless",
       "name": "opencv-python-headless",
-      "versionInfo": "4.12.0.88",
+      "versionInfo": "5.0.0.93",
       "supplier": "NOASSERTION",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-pillow",
@@ -189,7 +169,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-pydantic",
@@ -199,7 +179,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-pydantic-core",
@@ -209,27 +189,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
-    },
-    {
-      "SPDXID": "SPDXRef-Package-pytest",
-      "name": "pytest",
-      "versionInfo": "9.0.3",
-      "supplier": "NOASSERTION",
-      "downloadLocation": "NOASSERTION",
-      "filesAnalyzed": false,
-      "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
-    },
-    {
-      "SPDXID": "SPDXRef-Package-pytest-asyncio",
-      "name": "pytest-asyncio",
-      "versionInfo": "1.4.0",
-      "supplier": "NOASSERTION",
-      "downloadLocation": "NOASSERTION",
-      "filesAnalyzed": false,
-      "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-python-dotenv",
@@ -239,17 +199,17 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-python-multipart",
       "name": "python-multipart",
-      "versionInfo": "0.0.31",
+      "versionInfo": "0.0.32",
       "supplier": "NOASSERTION",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-pyyaml",
@@ -259,7 +219,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-requests",
@@ -269,7 +229,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-requests-file",
@@ -279,7 +239,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-starlette",
@@ -289,17 +249,17 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-tldextract",
       "name": "tldextract",
-      "versionInfo": "5.3.0",
+      "versionInfo": "5.3.2",
       "supplier": "NOASSERTION",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-typing-extensions",
@@ -309,7 +269,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-typing-inspection",
@@ -319,7 +279,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-urllib3",
@@ -329,17 +289,17 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-uvicorn",
       "name": "uvicorn",
-      "versionInfo": "0.35.0",
+      "versionInfo": "0.53.0",
       "supplier": "NOASSERTION",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-uvloop",
@@ -349,7 +309,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; not installed in the SBOM build environment"
     },
     {
       "SPDXID": "SPDXRef-Package-watchfiles",
@@ -359,7 +319,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-websockets",
@@ -369,7 +329,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-Package-zxing-cpp",
@@ -379,7 +339,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "comment": "installed-and-validated"
+      "comment": "locked; installed version matches"
     },
     {
       "SPDXID": "SPDXRef-System-poppler-utils",
