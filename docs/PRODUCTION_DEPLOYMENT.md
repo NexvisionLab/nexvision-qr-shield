@@ -8,7 +8,7 @@ The default container has an internal-only network and performs no reputation, W
 
 1. Terminate TLS at a maintained reverse proxy or ingress.
 2. Set `QR_SHIELD_ALLOWED_HOSTS` to the deployed hostname.
-3. Set a high-entropy `QR_SHIELD_API_KEY`. The application requires at least 32 characters, 12 distinct characters and 128 estimated entropy bits. A browser UI must sit behind an identity-aware proxy that injects authentication; never embed this key in client-side code.
+3. Set a high-entropy `QR_SHIELD_API_KEY`. The application requires at least 32 characters, 12 distinct characters and 128 estimated entropy bits. Never embed this key in client-side code. API clients send it as `X-API-Key` or `Authorization: Bearer`. The web UI asks the user for it once and `POST /api/session` exchanges it for a session cookie (`qrs_session`: HMAC-signed, `HttpOnly`, `SameSite=Strict`, `Secure` in production, path `/api`, 8-hour lifetime). The cookie is stateless: signing out clears it in that browser, and rotating `QR_SHIELD_API_KEY` invalidates every issued session. For per-user identity and audit, put an identity-aware proxy in front instead and let it add the header.
 4. Set a different `QR_SHIELD_REPORT_HMAC_KEY` meeting the same strength requirements and protect it as a signing secret.
 5. Keep `QR_SHIELD_ALLOW_NETWORK_PREFLIGHT=0` unless the preflight worker has a separate egress sandbox with no route to loopback, private, link-local, metadata, cluster or management networks.
 6. Apply distributed rate limits and queue limits at the reverse proxy. The application limiter is a bounded single-process safety layer, not a distributed quota system.

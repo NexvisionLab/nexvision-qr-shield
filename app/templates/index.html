@@ -16,6 +16,7 @@
       <span>NEXVISION <b>QR SHIELD</b></span>
     </a>
     <span class="privacy"><span></span> Decode first. Decide safely.</span>
+    <button id="signOut" class="signout hidden" type="button">Sign out</button>
   </header>
 
   <main>
@@ -23,6 +24,18 @@
       <p class="eyebrow">OFFLINE OSINT SAFETY TOOL · v{{ version }}</p>
       <h1>See where a QR code leads<br><em>before it leads you there.</em></h1>
       <p class="lede">Upload an image, PDF or saved email. QR Shield decodes and examines it without opening the destination or submitting it to any external reputation API.</p>
+    </section>
+
+    <section id="authPanel" class="auth-panel hidden" aria-labelledby="authTitle">
+      <div>
+        <h2 id="authTitle">Access key required</h2>
+        <p>This deployment is protected. Your key is exchanged for a sign-in cookie that lasts 8 hours; this page does not store it.</p>
+      </div>
+      <form id="authForm" class="auth-form">
+        <input id="authKey" type="password" autocomplete="current-password" aria-label="Access key" placeholder="Access key" required>
+        <button type="submit">Sign in</button>
+      </form>
+      <p id="authError" class="auth-error hidden" role="alert"></p>
     </section>
 
     <section class="workspace">

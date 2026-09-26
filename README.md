@@ -133,7 +133,7 @@ docker compose up --build
 - It starts in production mode, so `/health` and the API return 503 until `QR_SHIELD_API_KEY`, `QR_SHIELD_REPORT_HMAC_KEY` and `QR_SHIELD_ALLOWED_HOSTS` are set.
 - The `shield` network is `internal: true` to deny all egress. Docker does not publish ports for a container on an internal-only network, so put a reverse proxy on the `shield` network (and on an ingress network) to reach the service.
 - The container health check connects to `127.0.0.1`; keep `127.0.0.1` in `QR_SHIELD_ALLOWED_HOSTS`.
-- The browser UI does not send the API key. When the key is set, serve the UI behind an identity-aware proxy that adds the `X-API-Key` header (see [production deployment](docs/PRODUCTION_DEPLOYMENT.md)).
+- When `QR_SHIELD_API_KEY` is set, the browser UI asks for it once and exchanges it for an 8-hour, signed, `HttpOnly` session cookie (see [production deployment](docs/PRODUCTION_DEPLOYMENT.md)). API clients keep sending the `X-API-Key` header.
 
 For a quick local trial, use the `uvicorn` command above.
 

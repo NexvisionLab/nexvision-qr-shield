@@ -4,7 +4,13 @@ All notable changes to NexVision QR Shield are recorded here.
 
 ## [Unreleased]
 
+### Added
+
+- Web UI sign-in: when `QR_SHIELD_API_KEY` is set, the page asks for the access key and `POST /api/session` exchanges it for an 8-hour HMAC-signed `HttpOnly`, `SameSite=Strict` session cookie accepted by the API alongside `X-API-Key`. `GET /api/session` reports whether sign-in is required and `DELETE /api/session` signs out. Previously the UI could not analyze anything once an API key was configured.
+
 ### Security
+
+- A non-ASCII `X-API-Key` or bearer token caused an HTTP 500 (`hmac.compare_digest` rejects non-ASCII strings); it is now rejected with 401.
 
 - Redirects followed by the optional destination preflight are now held to the same port 80/443 restriction as the first request.
 - The preflight follows the normalized (punycode) redirect target, so the host that was analyzed is the host that is contacted.

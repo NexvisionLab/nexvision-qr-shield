@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
-import hmac
 import json
 import logging
 import math
@@ -24,6 +23,13 @@ from . import __version__
 from .analyzer import analyze_payload
 from .artifact import MAX_ARTIFACT_BYTES, decode_artifact
 from .decoder import DecodeError, decode_qr
+from .session import (
+    SESSION_COOKIE,
+    SESSION_TTL_SECONDS,
+    issue_session,
+    keys_match,
+    session_valid,
+)
 
 BASE = Path(__file__).resolve().parent
 PRODUCTION = os.getenv("QR_SHIELD_ENV", "development").casefold() == "production"
@@ -129,6 +135,18 @@ class TextAnalysisRequest(BaseModel):
         return value
 
 
+class SessionRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    key: StrictStr
+
+    @field_validator("key")
+    @classmethod
+    def key_size(cls, value: str) -> str:
+        if not value or len(value) > 1024:
+            raise ValueError("Access key must contain 1 to 1,024 characters.")
+        return value
+
+
 @app.middleware("http")
 async def security_headers(request: Request, call_next):
     request_id = request.headers.get("x-request-id", "")
@@ -146,12 +164,12 @@ async def security_headers(request: Request, call_next):
     if request.method in {"POST", "PUT", "PATCH", "DELETE"} and request.headers.get("sec-fetch-site", "").casefold() == "cross-site":
         return _apply_security_headers(JSONResponse({"detail": "Cross-site request rejected."}, status_code=403), request_id)
     api_key = os.getenv("QR_SHIELD_API_KEY", "")
-    if request.url.path.startswith("/api/") and api_key:
+    if request.url.path.startswith("/api/") and request.url.path != "/api/session" and api_key:
         supplied = request.headers.get("x-api-key", "")
         authorization = request.headers.get("authorization", "")
         if authorization.casefold().startswith("bearer "):
             supplied = authorization[7:]
-        if not hmac.compare_digest(supplied, api_key):
+        if not (keys_match(supplied, api_key) or session_valid(request.cookies.get(SESSION_COOKIE, ""), api_key, time.time())):
             return _apply_security_headers(JSONResponse({"detail": "Authentication required."}, status_code=401), request_id)
     response = await call_next(request)
     return _apply_security_headers(response, request_id)
@@ -160,6 +178,42 @@ async def security_headers(request: Request, call_next):
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse(request=request, name="index.html", context={"version": __version__})
+
+
+def _session_state(request: Request) -> dict[str, bool]:
+    api_key = os.getenv("QR_SHIELD_API_KEY", "")
+    if not api_key:
+        return {"auth_required": False, "authenticated": True}
+    return {"auth_required": True, "authenticated": session_valid(request.cookies.get(SESSION_COOKIE, ""), api_key, time.time())}
+
+
+@app.get("/api/session")
+async def session_status(request: Request):
+    return _session_state(request)
+
+
+@app.post("/api/session")
+async def sign_in(body: SessionRequest, request: Request):
+    api_key = os.getenv("QR_SHIELD_API_KEY", "")
+    if not api_key:
+        return _session_state(request)
+    if not keys_match(body.key, api_key):
+        logger.info(json.dumps({"event": "ui_sign_in_rejected"}))
+        raise HTTPException(401, "Access key not accepted.")
+    response = JSONResponse({"auth_required": True, "authenticated": True})
+    response.set_cookie(
+        SESSION_COOKIE, issue_session(api_key, time.time()), max_age=SESSION_TTL_SECONDS, path="/api",
+        httponly=True, samesite="strict", secure=PRODUCTION or request.url.scheme == "https",
+    )
+    logger.info(json.dumps({"event": "ui_sign_in"}))
+    return response
+
+
+@app.delete("/api/session")
+async def sign_out():
+    response = JSONResponse({"auth_required": bool(os.getenv("QR_SHIELD_API_KEY")), "authenticated": False})
+    response.delete_cookie(SESSION_COOKIE, path="/api", httponly=True, samesite="strict", secure=PRODUCTION)
+    return response
 
 
 @app.get("/health")
