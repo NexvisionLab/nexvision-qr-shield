@@ -17,6 +17,7 @@ All notable changes to NexVision QR Shield are recorded here.
 
 - Official domains under two-part suffixes (for example `www.dbs.com.sg`, `www.cpf.gov.sg`, `www.google.com.sg`) were reported as brand-in-subdomain impersonation and received a Dangerous verdict.
 - First-party service domains (`live.com` for Outlook/OneDrive, `googleapis.com`, `googleusercontent.com`, `amazonaws.com`) were added to the brand policy; the intelligence pack is now `2026.09.4`.
+- Brand impersonation matched a brand name anywhere inside an ordinary word, so legitimate sites such as `grabcad.com` (grab), `craigslist.org` and `crates.io` (cra), `xbox.com` and `xiaomi.com` (x), `dbschenker.com` (dbs), `appleinsider.com` (apple) and `telegraph.co.uk` (telegram, two edits) were rated Dangerous. A brand now counts only as a whole host token or when joined to a lure word (`grabpay`, `paypalverify`, `securepaypal`); typosquatting allows one edit for names up to eight characters and folds `rn`→`m` and `vv`→`w` first. On a 76-domain check, false positives fell from 30 of 43 legitimate domains to 0 with none of the 33 attack variants missed. The intelligence pack is now `2026.09.5`.
 - Mixed-radix and single-number octal IPv4 hosts such as `0x7f.0.0.1` and `017700000001` are now recognized as obfuscated IP destinations.
 - Exact-URL blocklist entries now match regardless of a missing trailing `/`, a default port, a fragment or an IDN host.
 - A server reply with a malformed HTTP status line, or an unparseable `Location` header, no longer aborts the analysis.

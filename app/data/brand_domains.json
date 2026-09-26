@@ -47,6 +47,6 @@
   "uob": ["uobgroup.com", "uob.com.sg"],
   "usps": ["usps.com"],
   "visa": ["visa.com", "visa.com.sg"],
-  "whatsapp": ["whatsapp.com", "wa.me"],
+  "whatsapp": ["whatsapp.com", "whatsapp.net", "wa.me"],
   "x": ["x.com", "twitter.com"]
 }

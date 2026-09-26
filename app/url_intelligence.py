@@ -30,7 +30,12 @@ OPEN_REDIRECT_KEYS = {
     "return_url", "next", "continue", "dest", "destination", "target", "link", "goto",
 }
 SENSITIVE_KEYS = {"password", "passwd", "pwd", "token", "access_token", "secret", "otp", "pin", "apikey", "api_key", "client_secret", "id_token"}
-EXECUTABLE_MIME_HINTS = {"application", "download", "attachment", "installer", "setup"}
+BRAND_LURE_AFFIXES = (
+    "login", "logon", "signin", "secure", "verify", "verification", "account", "auth",
+    "support", "help", "service", "update", "confirm", "refund", "pay", "bank", "wallet",
+    "online", "id", "my", "official", "portal", "alert", "unlock", "reward", "gift",
+)
+EXECUTABLE_MIME_HINTS ={"application", "download", "attachment", "installer", "setup"}
 ZERO_WIDTH_OR_BIDI = {
     "\u200b", "\u200c", "\u200d", "\u2060", "\ufeff", "\u202a", "\u202b", "\u202d",
     "\u202e", "\u202c", "\u2066", "\u2067", "\u2068", "\u2069",
@@ -82,6 +87,35 @@ def levenshtein(a: str, b: str, limit: int = 3) -> int:
             return limit + 1
         previous = current
     return previous[-1]
+
+
+def _fold_lookalike_pairs(text: str) -> str:
+    return text.replace("rn", "m").replace("vv", "w")
+
+
+def _brand_in_host(brand: str, host_skeleton: str) -> bool:
+    """A brand counts as present when it is a whole host token, or when it is
+    joined to a lure word (grabpay, paypalverify, securepaypal).
+
+    A brand that merely begins or sits inside an ordinary word (grabcad,
+    craigslist for "cra", xbox for "x", appleinsider) is not a match.
+    """
+    if not brand:
+        return False
+    if brand in re.split(r"[.-]", host_skeleton):
+        return True
+    for label in host_skeleton.split("."):
+        compact = label.replace("-", "")
+        start = compact.find(brand)
+        while start >= 0:
+            before, after = compact[:start], compact[start + len(brand):]
+            if (before or after) and (
+                any(after.startswith(word) for word in BRAND_LURE_AFFIXES)
+                or any(before.endswith(word) for word in BRAND_LURE_AFFIXES)
+            ):
+                return True
+            start = compact.find(brand, start + 1)
+    return False
 
 
 def confusable_skeleton(text: str) -> str:
@@ -217,18 +251,20 @@ def analyze_url_offline(raw_url: str, normalized_url: str, display_host: str, as
     skeleton_host = confusable_skeleton(unicode_host)
     details["confusable_skeleton"] = skeleton_host
     brand_hits: list[tuple[str, str]] = []
+    label_skeleton = confusable_skeleton(domain_label).replace("-", "")
     for brand, official_domains in brand_domains().items():
         official = registered in official_domains or any(registered.endswith("." + item) for item in official_domains)
         compact_brand = confusable_skeleton(brand).replace("-", "").replace(" ", "")
-        compact_host = skeleton_host.replace("-", "")
-        host_tokens = [confusable_skeleton(token) for token in re.split(r"[.-]", unicode_host.casefold())]
-        if len(compact_brand) <= 4:
-            host_has_brand = any(token == compact_brand or (token.startswith(compact_brand) and len(token) >= len(compact_brand) + 3) for token in host_tokens)
-            distance = 3
-        else:
-            host_has_brand = compact_brand in compact_host
-            distance = levenshtein(confusable_skeleton(domain_label).replace("-", ""), compact_brand, 2)
-        if not official and (host_has_brand or distance <= 2):
+        host_has_brand = _brand_in_host(compact_brand, skeleton_host)
+        distance = 3
+        if len(compact_brand) > 4:
+            distance = min(
+                levenshtein(label_skeleton, compact_brand, 2),
+                levenshtein(_fold_lookalike_pairs(label_skeleton), compact_brand, 2),
+            )
+        # One edit on short names already covers ordinary words (telegraph/telegram).
+        max_distance = 2 if len(compact_brand) >= 9 else 1
+        if not official and (host_has_brand or distance <= max_distance):
             reason = "name present in untrusted domain" if host_has_brand else f"edit distance {distance}"
             brand_hits.append((brand, reason))
     if brand_hits:
@@ -239,7 +275,7 @@ def analyze_url_offline(raw_url: str, normalized_url: str, display_host: str, as
     subdomain = EXTRACT(ascii_host).subdomain.lower()
     if subdomain and registered and any(
         len(brand.replace(" ", "")) >= 3
-        and brand.replace(" ", "") in confusable_skeleton(subdomain).replace("-", "")
+        and _brand_in_host(confusable_skeleton(brand).replace("-", "").replace(" ", ""), confusable_skeleton(subdomain))
         and not (registered in official_domains or any(registered.endswith("." + item) for item in official_domains))
         for brand, official_domains in brand_domains().items()
     ):

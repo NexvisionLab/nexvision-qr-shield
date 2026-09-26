@@ -209,3 +209,21 @@ def test_bitcoin_address_case_rules():
 ])
 def test_eip681_payment_links_are_accepted(uri):
     assert analyze_crypto_uri(uri)["validation_issues"] == []
+
+
+@pytest.mark.parametrize("url", [
+    "https://grabcad.com/", "https://craigslist.org/", "https://crates.io/", "https://xbox.com/",
+    "https://xiaomi.com/", "https://dbschenker.com/", "https://irasutoya.com/", "https://appleinsider.com/",
+    "https://telegraph.co.uk/", "https://whatsapp.net/", "https://firstrate.example/",
+])
+def test_brand_inside_an_ordinary_word_is_not_impersonation(url):
+    assert not _codes(_run(url)) & {"BRAND_IN_SUBDOMAIN", "BRAND_IMPERSONATION"}
+
+
+@pytest.mark.parametrize("url", [
+    "https://grab-login.com/", "https://grabpay-verify.xyz/", "https://dbs-secure.com/", "https://x-verify.com/",
+    "https://securepaypal.net/", "https://paypalverify.com/", "https://pay-pal-login.com/",
+    "https://arnazon.com/", "https://telegrarn.org/", "https://micros0ft.com/", "https://login.paypal.com.phish.top/",
+])
+def test_brand_lures_and_lookalikes_are_still_impersonation(url):
+    assert _codes(_run(url)) & {"BRAND_IN_SUBDOMAIN", "BRAND_IMPERSONATION"}

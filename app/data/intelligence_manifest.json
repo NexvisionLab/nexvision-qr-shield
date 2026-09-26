@@ -1,7 +1,7 @@
 {
   "pack_id": "nexvision-qr-offline-core",
-  "version": "2026.09.4",
-  "created": "2026-09-25",
+  "version": "2026.09.5",
+  "created": "2026-09-26",
   "external_api_required": false,
   "contents": [
     "administrator blocklist",
