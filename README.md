@@ -131,7 +131,8 @@ docker compose up --build
 `docker-compose.yml` is a hardened production template, not a local demo:
 
 - It starts in production mode, so `/health` and the API return 503 until `QR_SHIELD_API_KEY`, `QR_SHIELD_REPORT_HMAC_KEY` and `QR_SHIELD_ALLOWED_HOSTS` are set.
-- The `shield` network is `internal: true` to deny all egress. Docker does not publish ports for a container on an internal-only network, so put a reverse proxy on the `shield` network (and on an ingress network) to reach the service.
+- The application container sits only on the `shield` network, which is `internal: true` and has no route out. An unprivileged nginx `proxy` container (`deploy/nginx.conf`) joins `shield` and an ingress network and publishes the service on `http://127.0.0.1:8000`. Set `QR_SHIELD_BIND` to change the bind address, and terminate TLS in front of it before exposing it beyond the host.
+- The proxy overwrites `X-Forwarded-For`, and the application trusts that header only from the proxy's fixed address (`172.30.57.2`), so per-client rate limits see real client addresses. If `172.30.57.0/24` collides with a local network, change the subnet and both addresses together.
 - The container health check connects to `127.0.0.1`; keep `127.0.0.1` in `QR_SHIELD_ALLOWED_HOSTS`.
 - When `QR_SHIELD_API_KEY` is set, the browser UI asks for it once and exchanges it for an 8-hour, signed, `HttpOnly` session cookie (see [production deployment](docs/PRODUCTION_DEPLOYMENT.md)). API clients keep sending the `X-API-Key` header.
 
